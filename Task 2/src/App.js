@@ -75,7 +75,8 @@ function App() {
           <button
             aria-label="Previous"
             onClick={handlePrevious}
-            className="absolute flex items-center justify-center -left-6 top-1/2 z-10 size-12 rounded-full text-[#0D0A0B] bg-white   shadow-[0px_16px_16px_0px_rgba(21,_25,_28,_0.25)] ">
+            type="button"
+            className="ripple-button bg-white absolute flex items-center justify-center -left-6 top-1/2 z-10 size-12 rounded-full text-[#0D0A0B] shadow-[0px_16px_16px_0px_rgba(21,_25,_28,_0.25)] ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -94,7 +95,8 @@ function App() {
           <button
             aria-label="Next"
             onClick={handleNext}
-            className="absolute flex items-center justify-center -right-6 top-1/2 z-10 size-12 rounded-full text-[#0D0A0B] bg-white shadow-[0px_16px_16px_0px_rgba(21,_25,_28,_0.25)] ">
+            type="button"
+            className="ripple-button absolute flex items-center justify-center -right-6 top-1/2 z-10 size-12 rounded-full text-[#0D0A0B] bg-white shadow-[0px_16px_16px_0px_rgba(21,_25,_28,_0.25)] ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -120,7 +122,7 @@ function App() {
                 className={`keen-slider__slide w-full relative ${index % 2 !== 0 ? "top-0" : "top-10"}`}>
                 <img
                   src={item.src}
-                  alt=""
+                  alt={`carousel-${item.id}`}
                   height={396}
                   className="w-[159px]  object-cover"
                 />

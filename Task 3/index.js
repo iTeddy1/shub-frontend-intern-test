@@ -1,5 +1,3 @@
-const axios = require("axios");
-
 const API_URL_INPUT = "https://share.shub.edu.vn/api/intern-test/input";
 const API_URL_OUTPUT = "https://share.shub.edu.vn/api/intern-test/output";
 
@@ -18,7 +16,8 @@ function processQueries(data, queries) {
 
   const results = [];
   for (const query of queries) {
-    const [type, l, r] = query;
+    const { type, range } = query;
+    const [l, r] = range;
     if (type === 1) {
       results.push(prefixSum[r + 1] - prefixSum[l]);
     } else if (type === 2) {
@@ -32,20 +31,29 @@ function processQueries(data, queries) {
 }
 
 const main = async () => {
-  const res = await axios.get(API_URL_INPUT);
-  const data = res.data;
-  const token = res.token;
-  const body = processQueries(data.number, query);
+  try {
+    const inputRes = await fetch(API_URL_INPUT);
+    if(!inputRes.ok) throw new Error("Error fetching the data");
+    const { data, token, query } = await inputRes.json();
 
-  const result = await axios.post(API_URL_OUTPUT, {
-    header: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body,
-  });
+    const results = processQueries(data, query);
 
-  return result.data;
+    const outputRes = await fetch(API_URL_OUTPUT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ results }),
+    });
+
+    if(!outputRes.ok) throw new Error("Error posting the data");
+    
+    const result = await outputRes.json();
+    return result;
+  } catch (error) {
+    console.error("Error occurred:", error.message);
+  }
 };
 
 main();

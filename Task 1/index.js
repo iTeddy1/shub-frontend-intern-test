@@ -48,9 +48,9 @@ const main = async () => {
 
   const dataArr = JSON.parse(data);
 
-  const sale = dataArr.filter((item) => +item["Sales"] > 50000);
+  const salesArr = dataArr.filter((item) => +item["Sales"] > 50000);
 
-  writeExcel(sale);
+  writeExcel(salesArr);
 };
 
 main();
